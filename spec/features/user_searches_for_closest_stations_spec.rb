@@ -11,22 +11,21 @@ require 'rails_helper'
 
 feature 'NREL energy' do
   scenario 'User can fill in zip code to find 10 closes stations' do
-    user = User.create!(name: 'Will')
-    station_1 = Station.create!(name: 'Electric Station', address: 'electric lane', fuel_type: 'electric', distance: 5, access_time: 5)
-    station_2 = Station.create!(name: 'Propane Station', address: 'electric lane', fuel_type: 'propane', distance: 5, access_time: 5)
-    station_3 = Station.create!(name: 'Gas Station', address: 'electric lane', fuel_type: 'gas', distance: 5, access_time: 5)
 
     visit '/'
 
-    fill_in zipcode, with: '80203'
+    fill_in 'zipcode', with: '80203'
     click_on 'Locate'
 
     expect(current_path).to eq('/search')
-    expect(station.count).to eq(10)
-    expect(page).to have_content(station_1.name)
-    expect(page).to have_content(station_1.address)
-    expect(page).to have_content(station_1.fuel_type)
-    expect(page).to have_content(station_1.distance)
-    expect(page).to have_content(station_1.access_time)
+
+    within(".stations") do
+      expect(stations.count).to eq(10)
+      expect(page).to have_content(station.name)
+      expect(page).to have_content(station.address)
+      expect(page).to have_content(station.fuel_type)
+      expect(page).to have_content(station.distance)
+      expect(page).to have_content(station.access_times)
+    end
   end
 end
