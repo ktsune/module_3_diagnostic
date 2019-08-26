@@ -14,7 +14,6 @@ feature 'NREL energy' do
 
     visit '/'
 
-    save_and_open_page
     fill_in 'zipcode', with: '80203'
     click_on 'Locate'
 
