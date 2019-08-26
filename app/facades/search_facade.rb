@@ -1,5 +1,14 @@
 SearchFacade
   def nearest_stations
-    conn = Faraday.new(:url => '')
+    # => set up faraday object
+    conn = Faraday.new(:url => 'https://developer.nrel.gov/api/alt-fuel-stations/v1/') do
+      f.headers['X-API-KEY'] = ENV['NREL_KEY']
+      faraday.adapter  Faraday.default_adapter
+
+    # => make api call & parse the response
+    response = JSON.parse(conn.get('nearest.json?fuel_type=ELEC, LPG&limit=10&location=Denver, CO'))
+
+    # => make station objects, then make the station class
+
   end
 end
